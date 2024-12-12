@@ -4,7 +4,7 @@ PYTHON_DIR = "d:/Python/bin"
 BAT_DIR = "d:/Python/bin/bat"
 ALIAS_DIR = "d:/Python/bin/alias"
 
-override_all = False  # Flag to determine if all existing files should be overridden
+override_all = False
 
 def process_alias_files():
     for alias_file in os.listdir(ALIAS_DIR):
