@@ -42,12 +42,17 @@ def process_alias_line(line):
         if not proceed:
             return
 
+    max_arg_used = 0
     for i in range(1, 10):
-        cmd_content = cmd_content.replace(f"${i}", f"%{i}")
+        if f"${i}" in cmd_content:
+            max_arg_used = i
+            cmd_content = cmd_content.replace(f"${i}", f"%{i}")
+
+    extra_args = ' '.join(f"%{i}" for i in range(max_arg_used + 1, min(max_arg_used + 11, 10)))
 
     bat_content = (
         f"@echo off\n"
-        f"{cmd_content}%*\n"
+        f"{cmd_content} {extra_args}\n"
     )
 
     try:
@@ -68,7 +73,7 @@ def generate_bat_file(python_file_name):
 
     bat_content = (
         f"@echo off\n"
-        f"py {python_file_path}%*\n"
+        f"py {python_file_path} %*\n"
     )
 
     try:
