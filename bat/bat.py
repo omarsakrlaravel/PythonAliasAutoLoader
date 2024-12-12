@@ -9,7 +9,7 @@ override_all = False
 
 def process_alias_files():
     for alias_file in os.listdir(ALIAS_DIR):
-        if alias_file.endswith('.txt'):
+        if alias_file.endswith('.alias'):  # Changed from .txt to .alias
             with open(os.path.join(ALIAS_DIR, alias_file), 'r') as f:
                 for line in f:
                     line = line.strip()

@@ -1,3 +1,0 @@
-php artisan serve --port=$1 >> srv
-echo "$1" >> eco
-php artisan make:migration "create_$1_table" >> migration
