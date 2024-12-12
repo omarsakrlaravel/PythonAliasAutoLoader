@@ -1,4 +1,5 @@
 import os
+import argparse
 
 PYTHON_DIR = "d:/Python/bin"
 BAT_DIR = "d:/Python/bin/bat"
@@ -77,7 +78,23 @@ def generate_bat_file(python_file_name):
     except OSError as e:
         print(f"Error: Could not create/update the batch file '{bat_file_name}'. {e}")
 
+def clean_bat_directory():
+    for file in os.listdir(BAT_DIR):
+        if file.endswith('.bat') and file not in ['bat.py', 'bat.bat']:
+            os.remove(os.path.join(BAT_DIR, file))
+    print("Cleaned BAT_DIR except bat.py and bat.bat.")
+
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Manage batch files.")
+    parser.add_argument('-f', '--force', action='store_true', help='Force override without prompting.')
+    parser.add_argument('-c', '--clean', action='store_true', help='Clean BAT_DIR before generating files.')
+    args = parser.parse_args()
+
+    if args.clean:
+        clean_bat_directory()
+
+    override_all = args.force
+
     process_alias_files()
     for file_name in os.listdir(PYTHON_DIR):
         if file_name.endswith(".py"):
