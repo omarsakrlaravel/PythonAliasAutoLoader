@@ -32,11 +32,19 @@ d:/Python/bin/
    Add `d:/Python/bin/bat` to your PATH so that generated batch files are accessible globally.
 
 2. **Run the Generator**  
-   Execute `bat.bat` to:
+   Execute `bat` (i.e., `bat.bat`) to:
    - Generate `.bat` files for each `.py` file in `d:/Python/bin`.
    - Convert aliases defined in `d:/Python/bin/alias` into corresponding `.bat` files.
 
-3. **Custom Aliases**  
+3. **Create and Use Python Files**  
+   Simply create a Python script (e.g., `tst.py`) in `d:/Python/bin`. After running `bat`, a corresponding `tst.bat` will be generated.  
+   This means you can now run your script from any directory by typing:
+   ```
+   tst
+   ```
+   No need to specify the `.py` or `.bat` extension.
+
+4. **Custom Aliases**  
    - In the `alias` directory, create a `.txt` file (e.g., `php.txt`).
    - Each line should follow the format:  
      ```
@@ -50,7 +58,7 @@ d:/Python/bin/
    dev >> npm run dev
    ```
 
-   After running `bat.bat`, the above example creates `srv.bat` and `dev.bat` in the `bat` directory, allowing you to run `srv` or `dev` from anywhere.
+   After running `bat`, this creates `srv.bat` and `dev.bat` in the `bat` directory, allowing you to run `srv` or `dev` directly from any directory.
 
 ## Example
 
@@ -60,7 +68,7 @@ srv >> php artisan serve
 dev >> npm run dev
 ```
 
-Running `bat.bat` will generate:
+Running `bat` will generate:
 - `srv.bat` (executes `php artisan serve`)
 - `dev.bat` (executes `npm run dev`)
 
@@ -76,7 +84,7 @@ These commands are now available globally.
 If you move or rename directories, such as `d:/Python/bin`, be sure to:
 - Update the constants `PYTHON_DIR`, `BAT_DIR`, and `ALIAS_DIR` in `bat.py`.
 - Refresh your system's PATH to point to the correct `bat` directory.
-- Re-run `bat.bat` to regenerate the batch files with the new paths.
+- Re-run `bat` to regenerate the batch files with the new paths.
 
 ## Code Reference
 
