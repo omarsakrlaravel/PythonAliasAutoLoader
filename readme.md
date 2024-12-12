@@ -100,6 +100,8 @@ PYTHON_DIR = "d:/Python/bin"
 BAT_DIR = "d:/Python/bin/bat"
 ALIAS_DIR = "d:/Python/bin/alias"
 
+override_all = False
+
 def process_alias_files():
     for alias_file in os.listdir(ALIAS_DIR):
         if alias_file.endswith('.txt'):
@@ -110,6 +112,7 @@ def process_alias_files():
                         process_alias_line(line)
 
 def process_alias_line(line):
+    global override_all
     parts = line.split('>>')
     if len(parts) != 2:
         return
@@ -119,15 +122,24 @@ def process_alias_line(line):
     bat_file_name = f"{cmd_name}.bat"
     bat_path = os.path.join(BAT_DIR, bat_file_name)
 
-    # Prompt for overwrite if file already exists
     if os.path.exists(bat_path):
-        response = input(f"Batch file '{bat_file_name}' already exists. Update it? (y/n): ")
-        if response.lower() != 'y':
+        if override_all:
+            proceed = True
+        else:
+            response = input(f"Batch file '{bat_file_name}' already exists. Update it? (y/n/a): ")
+            if response.lower() == 'a':
+                override_all = True
+                proceed = True
+            elif response.lower() == 'y':
+                proceed = True
+            else:
+                proceed = False
+        if not proceed:
             return
 
     bat_content = (
         f"@echo off\n"
-        f"{cmd_content}\n"
+        f"{cmd_content} %*\n"
     )
 
     try:
