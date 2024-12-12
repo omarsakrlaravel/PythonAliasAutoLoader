@@ -1,3 +1,2 @@
 srv >> php artisan serve
 dev >> npm run dev
-start >> php artisan serve && npm run dev
