@@ -47,7 +47,7 @@ def process_alias_line(line):
 
     bat_content = (
         f"@echo off\n"
-        f"{cmd_content} %*\n"
+        f"{cmd_content}%*\n"
     )
 
     try:
@@ -68,7 +68,7 @@ def generate_bat_file(python_file_name):
 
     bat_content = (
         f"@echo off\n"
-        f"py {python_file_path} %*\n"
+        f"py {python_file_path}%*\n"
     )
 
     try:
