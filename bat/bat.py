@@ -30,7 +30,7 @@ def process_alias_line(line):
 
     bat_content = (
         f"@echo off\n"
-        f"{cmd_content}\n"
+        f"{cmd_content} %*\n"
     )
 
     try:
