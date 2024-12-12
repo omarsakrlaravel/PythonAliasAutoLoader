@@ -1,1 +1,0 @@
-print('Just write "bat" in your cmd')
