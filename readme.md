@@ -31,12 +31,15 @@ d:/Python/bin/
 1. **Add `bat` Directory to PATH**  
    Add `d:/Python/bin/bat` to your PATH so that generated batch files are accessible globally.
 
-2. **Run the Generator**  
+2. **Run the Generator**
+   ```
+   bat
+   ```
    Execute `bat` (i.e., `bat.bat`) to:
    - Generate `.bat` files for each `.py` file in `d:/Python/bin`.
    - Convert aliases defined in `d:/Python/bin/alias` into corresponding `.bat` files.
 
-3. **Create and Use Python Files**  
+4. **Create and Use Python Files**  
    Simply create a Python script (e.g., `tst.py`) in `d:/Python/bin`. After running `bat`, a corresponding `tst.bat` will be generated.  
    This means you can now run your script from any directory by typing:
    ```
@@ -44,7 +47,7 @@ d:/Python/bin/
    ```
    No need to specify the `.py` or `.bat` extension.
 
-4. **Custom Aliases**  
+5. **Custom Aliases**  
    - In the `alias` directory, create a `.txt` file (e.g., `php.txt`).
    - Each line should follow the format:  
      ```
