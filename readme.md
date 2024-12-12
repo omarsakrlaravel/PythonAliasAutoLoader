@@ -1,97 +1,155 @@
 # Python Batch File Generator
 
-A Python-based tool that automatically generates and manages batch files for your Python scripts and custom aliases. By running this utility, you can quickly create `.bat` files, making your Python scripts and aliases easily accessible from any directory on your system.
+This tool allows you to quickly generate batch (`.bat`) files for Python scripts and custom commands, enabling you to run them effortlessly from any directory. With this setup, you can simplify running Python scripts or commands by using short, customizable aliases.
 
-## Features
+---
 
-- **Global Access:** Run Python scripts and aliases from anywhere once the `.bat` files are in your PATH.
-- **Automated Batch Generation:** Automatically create `.bat` files for Python scripts in a specified directory.
-- **Custom Aliases:** Define custom aliases in `.txt` files and convert them into `.bat` files with a simple command.
+## What It Does
 
-## Prerequisites
+1. **Global Access:** Once `.bat` files are added to your system's PATH, you can run Python scripts and aliases globally, without specifying full paths.
+2. **Batch File Automation:** Automatically generate `.bat` files for Python scripts in a specified directory.
+3. **Custom Aliases:** Convert custom commands (like `php artisan serve`) into `.bat` files with aliases you define.
+4. **Argument Passing:** Pass arguments to your aliases (e.g., `srv 8080 --host=192.168.1.1`) and forward them to the underlying command seamlessly.
 
-- **Python:** Ensure that [Python](https://www.python.org/downloads/) is installed on your system.
-- **PATH Setup:** Add the `d:/Python/bin/bat` directory to your system's PATH environment variable.  
-  *If you change the directory paths, remember to update the code and instructions accordingly.*
+---
 
-## Directory Structure
+## Directory Setup
+
+Assume the following directory structure:
 
 ```
 d:/Python/bin/
 ├── bat/
-│   ├── bat.py     # Main Python script for batch generation
-│   └── bat.bat    # Executor script to trigger batch file creation
+│   ├── bat.py     # Main Python script for generating batch files
+│   └── bat.bat    # Shortcut batch file for running bat.py
 ├── alias/
-│   └── php.txt    # Alias definition files (one file per group of aliases)
+│   └── php.txt    # Alias definition files
 └── *.py            # Your Python scripts
 ```
 
-## Usage
+### Key Folders:
+- **`d:/Python/bin`**: Contains Python scripts.
+- **`d:/Python/bin/bat`**: Stores generated `.bat` files.
+- **`d:/Python/bin/alias`**: Stores custom alias definitions in `.txt` files.
 
-1. **Add `bat` Directory to PATH**  
-   Add `d:/Python/bin/bat` to your PATH so that generated batch files are accessible globally.
+---
 
-2. **Run the Generator**
-   ```
-   bat
-   ```
-   Execute `bat` (i.e., `bat.bat`) to:
-   - Generate `.bat` files for each `.py` file in `d:/Python/bin`.
-   - Convert aliases defined in `d:/Python/bin/alias` into corresponding `.bat` files.
+## How to Use
 
-4. **Create and Use Python Files**  
-   Simply create a Python script (e.g., `tst.py`) in `d:/Python/bin`. After running `bat`, a corresponding `tst.bat` will be generated.  
-   This means you can now run your script from any directory by typing:
-   ```
-   tst
-   ```
-   No need to specify the `.py` or `.bat` extension.
+### Step 1: Add the `bat` Directory to PATH
+Add `d:/Python/bin/bat` to your system's PATH environment variable. This ensures that any `.bat` file in this folder can be executed globally.
 
-5. **Custom Aliases**  
-   - In the `alias` directory, create a `.txt` file (e.g., `php.txt`).
-   - Each line should follow the format:  
-     ```
-     alias_name >> command
-     ```
-   - For multiple commands, separate them using `>>`.
+### Step 2: Run the Generator
+Run the `bat` utility (via `bat.bat` or `bat.py`). This script:
+1. Creates `.bat` files for all `.py` scripts in `d:/Python/bin`.
+2. Processes custom aliases defined in `d:/Python/bin/alias` and generates `.bat` files for them.
 
-   **Example:**
-   ```
-   srv >> php artisan serve
-   dev >> npm run dev
-   ```
-
-   After running `bat`, this creates `srv.bat` and `dev.bat` in the `bat` directory, allowing you to run `srv` or `dev` directly from any directory.
-
-## Example
-
-Consider you have `php.txt` in the `alias` folder with:
-```
-srv >> php artisan serve
-dev >> npm run dev
+Example command to execute:
+```bash
+bat
 ```
 
-Running `bat` will generate:
-- `srv.bat` (executes `php artisan serve`)
-- `dev.bat` (executes `npm run dev`)
+### Step 3: Use Your Scripts
+Once `.bat` files are generated, you can run your Python scripts or aliases directly from any directory.
 
-Now, open a new command prompt. With `d:/Python/bin/bat` in your PATH, you can run:
+#### Python Script Example:
+A script named `tst.py` in `d:/Python/bin` will generate `tst.bat`.  
+Now, you can run it from anywhere:
+```bash
+tst
 ```
-srv
-dev
+
+---
+
+## Custom Aliases: How They Work
+
+### Defining Aliases
+To create aliases, add them to `.txt` files in the `alias` folder (e.g., `php.txt`). Each line should follow this format:
 ```
-These commands are now available globally.
+command >> alias
+```
 
-## Important Note on Path Changes
+- **`command`**: The full command you want to alias.
+- **`alias`**: The short name you will use to execute it.
 
-If you move or rename directories, such as `d:/Python/bin`, be sure to:
-- Update the constants `PYTHON_DIR`, `BAT_DIR`, and `ALIAS_DIR` in `bat.py`.
-- Refresh your system's PATH to point to the correct `bat` directory.
-- Re-run `bat` to regenerate the batch files with the new paths.
+#### Example Alias File: `php.txt`
+```text
+php artisan serve --port=$1 >> srv
+npm run dev >> dev
+```
 
-## Code Reference
+### What This Does
+1. `srv`: Runs `php artisan serve` and passes any arguments you provide.
+2. `dev`: Runs `npm run dev`.
 
-Below is the main `bat.py` script used for generating batch files. Adjust the directory paths at the top if your setup differs.
+### Generated Batch Files
+- **`srv.bat`**:
+  ```cmd
+  @echo off
+  php artisan serve --port=%1 %*
+  ```
+  When you run:
+  ```bash
+  srv 8080 --host=192.168.1.1
+  ```
+  It translates to:
+  ```bash
+  php artisan serve --port=8080 --host=192.168.1.1
+  ```
+
+- **`dev.bat`**:
+  ```cmd
+  @echo off
+  npm run dev %*
+  ```
+  This simply runs `npm run dev`.
+
+---
+
+### How `srv 8080 --host=192.168.1.1` Works
+
+1. **Command Input:**  
+   When you type:
+   ```bash
+   srv 8080 --host=192.168.1.1
+   ```
+   - `srv` is the alias for the `php artisan serve` command.
+   - `8080` is assigned to `$1` (first argument), which maps to `%1` in the batch file.
+   - `--host=192.168.1.1` is passed as additional arguments (`%*`).
+
+2. **Execution in Batch File:**  
+   The generated `srv.bat` contains:
+   ```cmd
+   @echo off
+   php artisan serve --port=%1 %*
+   ```
+   - `%1` is replaced by `8080`.
+   - `%*` includes everything after `8080`, i.e., `--host=192.168.1.1`.
+
+3. **Final Command:**  
+   The batch file runs:
+   ```bash
+   php artisan serve --port=8080 --host=192.168.1.1
+   ```
+
+---
+
+## Key Features
+
+1. **Argument Passing**:  
+   Use `$1`, `$2`, etc., in aliases for positional arguments. These are converted to `%1`, `%2`, etc., in the batch file.
+
+2. **Dynamic Commands**:  
+   Add flexibility to your aliases by supporting arguments and optional parameters.
+
+3. **Global Execution**:  
+   After adding the `bat` folder to PATH, run scripts or aliases from any directory.
+
+---
+
+## Main Script: `bat.py`
+
+This script handles batch file generation for both Python scripts and aliases. Adjust the directory paths (`PYTHON_DIR`, `BAT_DIR`, `ALIAS_DIR`) as needed.
 
 ```python
 import os
@@ -117,8 +175,8 @@ def process_alias_line(line):
     if len(parts) != 2:
         return
 
-    cmd_name = parts[0].strip()
-    cmd_content = parts[1].strip()
+    cmd_content = parts[0].strip()
+    cmd_name = parts[1].strip()
     bat_file_name = f"{cmd_name}.bat"
     bat_path = os.path.join(BAT_DIR, bat_file_name)
 
@@ -136,6 +194,9 @@ def process_alias_line(line):
                 proceed = False
         if not proceed:
             return
+
+    for i in range(1, 10):
+        cmd_content = cmd_content.replace(f"${i}", f"%{i}")
 
     bat_content = (
         f"@echo off\n"
@@ -179,4 +240,4 @@ if __name__ == "__main__":
 
 ---
 
-**Enjoy streamlined access to your Python scripts and custom aliases!**
+**Simplify your workflow with easy access to scripts and custom commands!**

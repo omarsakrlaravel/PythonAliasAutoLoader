@@ -21,8 +21,8 @@ def process_alias_line(line):
     if len(parts) != 2:
         return
 
-    cmd_name = parts[0].strip()
-    cmd_content = parts[1].strip()
+    cmd_content = parts[0].strip()
+    cmd_name = parts[1].strip()
     bat_file_name = f"{cmd_name}.bat"
     bat_path = os.path.join(BAT_DIR, bat_file_name)
 
@@ -40,6 +40,9 @@ def process_alias_line(line):
                 proceed = False
         if not proceed:
             return
+
+    for i in range(1, 10):
+        cmd_content = cmd_content.replace(f"${i}", f"%{i}")
 
     bat_content = (
         f"@echo off\n"

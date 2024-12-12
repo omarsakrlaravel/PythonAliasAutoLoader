@@ -1,2 +1,3 @@
-srv >> php artisan serve
-dev >> npm run dev
+php artisan serve --port=$1 >> srv
+echo "$1" >> eco
+php artisan make:migration "create $1 table" >> mkmigration
