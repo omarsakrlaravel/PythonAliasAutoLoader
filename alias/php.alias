@@ -17,4 +17,4 @@ php artisan make:rule "$1Rule" >> rule
 php artisan make:provider "$1Provider" >> provider
 php artisan make:command "$1Command" >> command
 php artisan make:test "$1Test" >> test
-php artisan optimize:clear >> optimize
+php artisan optimize:clear >> clean

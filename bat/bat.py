@@ -1,11 +1,25 @@
 import os
 import argparse
 
-PYTHON_DIR = "d:/Python/bin"
-BAT_DIR = "d:/Python/bin/bat"
-ALIAS_DIR = "d:/Python/bin/alias"
+current_file_path = os.path.abspath(__file__)
+current_dir = os.path.dirname(current_file_path)
+PYTHON_DIR = os.path.join(current_dir, "../")
+BAT_DIR = current_dir
+ALIAS_DIR = os.path.join(current_dir, "../alias")
 
 override_all = False
+
+def ensure_bat_bat_exists():
+    bat_bat_path = os.path.join(BAT_DIR, "bat.bat")
+    if not os.path.exists(bat_bat_path):
+        with open(bat_bat_path, "w") as bat_bat_file:
+            bat_bat_file.write(
+                "@echo off\n"
+                f"py {os.path.join(BAT_DIR, 'bat.py').replace('\\', '/')} %*\n"
+            )
+        print("Generated 'bat.bat' with the correct content.")
+
+ensure_bat_bat_exists()
 
 def process_alias_files():
     for alias_file in os.listdir(ALIAS_DIR):
