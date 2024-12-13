@@ -7,8 +7,8 @@ A Python-based tool that automatically generates and manages batch files for you
 - **Global Access:** Run Python scripts and aliases from anywhere once the `.bat` files are in your PATH.
 - **Automated Batch Generation:** Automatically create `.bat` files for Python scripts in a specified directory.
 - **Custom Aliases with Arguments:** Define aliases that can accept arguments. For example, `$1`, `$2` in your alias commands will be converted to `%1`, `%2` in the resulting `.bat` file, allowing you to pass parameters directly to your aliases.
-- **Command-Line Options:**  
-  - `-f` (force override): Automatically override existing `.bat` files without prompting.  
+- **Command-Line Options:**
+  - `-f` (force override): Automatically override existing `.bat` files without prompting.
   - `-c` (clean): Remove all `.bat` files in the batch directory (except `bat.py` and `bat.bat`) before generating new ones.
 
 ## Prerequisites
@@ -25,7 +25,7 @@ d:/Python/bin/
 │   ├── bat.py     # Main Python script for batch generation
 │   └── bat.bat    # Executor script to trigger batch file creation
 ├── alias/
-│   └── php.txt    # Alias definition files (one file per group of aliases)
+│   └── php.alias  # Alias definition files (one file per group of aliases)
 └── *.py            # Your Python scripts
 ```
 
@@ -34,12 +34,19 @@ d:/Python/bin/
 1. **Add `bat` Directory to PATH**  
    Add `d:/Python/bin/bat` to your PATH so that generated batch files are accessible globally.
 
-2. **Generate Batch Files**  
+2. **Run the Initial Setup**  
+   Execute the Python script `bat.py` directly:
+   ```
+   python bat.py
+   ```
+   This generates the `bat.bat` file for easier future execution.
+
+3. **Generate Batch Files**  
    Run `bat` (i.e., `bat.bat`) to:
    - Generate `.bat` files for each `.py` file in `d:/Python/bin`.
    - Convert aliases defined in `d:/Python/bin/alias` into corresponding `.bat` files.
 
-3. **Command-Line Arguments**  
+4. **Command-Line Arguments**  
    - **Force Override (-f):**  
      If you want to overwrite existing `.bat` files without any prompts, run:  
      ```
@@ -55,7 +62,7 @@ d:/Python/bin/
      bat -c -f
      ```
 
-4. **Passing Arguments to Python Scripts and Aliases**  
+5. **Passing Arguments to Python Scripts and Aliases**  
    - For Python scripts, you can simply append arguments after the command:
      ```
      script_name arg1 arg2
@@ -70,7 +77,7 @@ d:/Python/bin/
      ```
      The alias will receive these values as arguments.
 
-5. **Create and Use Python Files**  
+6. **Create and Use Python Files**  
    Place a Python script (e.g., `tst.py`) in `d:/Python/bin`. After running `bat` with or without flags, a corresponding `tst.bat` will be generated.  
    You can then run your script from any directory by typing:
    ```
@@ -78,25 +85,25 @@ d:/Python/bin/
    ```
    No need to specify the `.py` or `.bat` extension.
 
-6. **Custom Aliases**  
-   - In the `alias` directory, create a `.txt` file (e.g., `php.txt`).
+7. **Custom Aliases**  
+   - In the `alias` directory, create a `.alias` file (e.g., `php.alias`).
    - Each line should follow the format:  
      ```
      command >> alias_name
      ```
-     *Note:* The order here is `command >> alias_name`.  
-   
+     *Note:* The order here is `command >> alias_name`.
+
    **Example:**
    ```
    php artisan serve >> srv
    npm run dev >> dev
    ```
-   
+
    After running `bat`, this creates `srv.bat` and `dev.bat`, allowing you to run `srv` or `dev` from anywhere.
 
 ## Example
 
-If `php.txt` contains:
+If `php.alias` contains:
 ```
 php artisan serve >> srv
 npm run dev >> dev
